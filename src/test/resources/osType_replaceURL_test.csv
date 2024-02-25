@@ -1,0 +1,6 @@
+osName|archName|expected
+mac|x86_64|https://storage.googleapis.com/chrome-for-testing-public/121.0.6167.184/mac-x64/chromedriver-mac-x64.zip
+mac|arm64|https://storage.googleapis.com/chrome-for-testing-public/121.0.6167.184/mac-arm64/chromedriver-mac-arm64.zip
+win|x86|https://storage.googleapis.com/chrome-for-testing-public/121.0.6167.184/win32/chromedriver-win32.zip
+win|x86_64|https://storage.googleapis.com/chrome-for-testing-public/121.0.6167.184/win64/chromedriver-win64.zip
+linux|x86_64|https://storage.googleapis.com/chrome-for-testing-public/121.0.6167.184/linux64/chromedriver-linux64.zip

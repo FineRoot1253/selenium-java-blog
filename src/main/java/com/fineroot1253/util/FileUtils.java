@@ -1,18 +1,54 @@
 package com.fineroot1253.util;
 
+import static com.fineroot1253.util.ExceptionMessage.CREATE_UTILITY_CLASS_EXCEPTION;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class UnzipHelper {
+public class FileUtils {
 
-    private UnzipHelper(){
-        throw new IllegalStateException(ExceptionMessage.CREATE_UTILITY_CLASS_EXCEPTION);
+    private FileUtils(){
+        throw new IllegalStateException(CREATE_UTILITY_CLASS_EXCEPTION);
+    }
+
+    public static void download(final String url, final String saveDirFilePath) throws IOException {
+        ReadableByteChannel readableByteChannel = null;
+        FileOutputStream fileOutputStream = null;
+        try{
+            readableByteChannel = Channels.newChannel(new URL(url).openStream());
+            fileOutputStream = new FileOutputStream(saveDirFilePath);
+            FileChannel fileChannel = fileOutputStream.getChannel();
+            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        } finally {
+            if (readableByteChannel != null) {
+                readableByteChannel.close();
+            }
+            if (fileOutputStream != null) {
+                fileOutputStream.close();
+            }
+        }
+    }
+
+    public static void write(final InputStream inputStream, final File destFile)
+            throws IOException {
+        try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(destFile))) {
+            byte[] buffer = new byte[4096];
+            int len;
+            while ((len = inputStream.read(buffer)) != -1) {
+                bufferedOutputStream.write(buffer, 0, len);
+            }
+        }
     }
 
     public static void unzip(final String srcPath, final String destPath) {
@@ -45,7 +81,7 @@ public class UnzipHelper {
 
     private static void createDirOfFile(File file) throws IOException {
         if(!validateFile(file) && (!file.mkdirs())){
-               throw new IOException(ExceptionMessage.DIR_CREATE_EXCEPTION.concat(file.toString()));
+            throw new IOException(ExceptionMessage.DIR_CREATE_EXCEPTION.concat(file.toString()));
         }
     }
 

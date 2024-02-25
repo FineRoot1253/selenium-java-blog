@@ -1,0 +1,6 @@
+os,path,expected
+LINUX_AMD64,/src/test/resources/test_dir,C3
+MAC_AMD64,/src/test/resources/test_dir,
+MAC_ARM64,/src/test/resources/test_dir,
+WIN_AMD32,/src/test/resources/test_dir,
+WIN_AMD64,/src/test/resources/test_dir,
