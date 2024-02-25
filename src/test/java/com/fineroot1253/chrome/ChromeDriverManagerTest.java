@@ -3,6 +3,8 @@ package com.fineroot1253.chrome;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.fineroot1253.driver.DriverSource;
+import com.fineroot1253.factory.DriverSourceFactoryBean;
 import com.fineroot1253.util.FileUtils;
 import com.fineroot1253.util.OsType;
 import java.io.IOException;
@@ -50,6 +52,9 @@ class ChromeDriverManagerTest {
         ChromeDriverManager chromeDriverManager = new ChromeDriverManager(
                 "src/test/resources/chromeDriver/old_version/chromedriver-mac-x64/chromedriver");
         chromeDriverManager.updateToLatestVersion(OsType.from("mac", "x86_64"));
+        DriverSource driverSource = DriverSourceFactoryBean.createCreator()
+                .create("src/test/resources/chromeDriver/old_version/chromedriver-mac-x64/chromedriver");
+        assertThat(driverSource.needUpdate()).isFalse();
     }
 
     @AfterAll
